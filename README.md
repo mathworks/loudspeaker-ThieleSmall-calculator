@@ -8,6 +8,7 @@ Below is a screenshot of the calculator.
 
 ## How to get started
 Unzip the downloaded file, run the file thieleSmallCalc.mlapp in MATLAB. 
+The "deployed_app" folder holds the exe file compiled for running in Windows only.
 
 ## License
 The license is available in the License.txt file in this GitHub repository.
