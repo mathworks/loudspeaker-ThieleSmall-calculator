@@ -14,12 +14,12 @@ rm  = 1.2;          % kg/s => 1.2
 
 
 %% Dayton Audio DA270 8 10 
-Re = 6.3;             % ohms
-Le = 1.2e-4;        % henries 0.6e-3
-Bl   = 10.1;         % N/A  Newtons/Amp => 3.869
-mm = 0.0513;          % kg => 0.013
-cm  = 0.00064;       % 0.56 mm/N, 0.394e-3? 0.56e-3; 1.5e-3
-rm  = 2.996;          % kg/s => 1.2
+% Re = 6.3;             % ohms
+% Le = 1.197e-4;        % henries 0.6e-3
+% Bl   = 10.1;         % N/A  Newtons/Amp => 3.869
+% mm = 0.0513;          % kg => 0.013
+% cm  = 0.00064;       % 0.56 mm/N, 0.394e-3? 0.56e-3; 1.5e-3
+% rm  = 2.996;          % kg/s => 1.2
 
 
 state.elec.Re = Re;
@@ -103,7 +103,7 @@ else
     k8 = 0.0;
 end
 %[Kdxx] = [0 0 0 0 k4 k3 k2 k1 k0]; 
-Kdxx = [k0 k1 k2 k3 k4];
+Kdxx = [k0 k1 k2 k3 k4 k5];
 
 
 %%
@@ -111,15 +111,15 @@ Kdxx = [k0 k1 k2 k3 k4];
  % Voice coil inductance (Assumes Henries):						
 		% L0 = 1.6736*1e-3;           % Enter Klippel value mH * 1e-3
         l0 = Le*1;                % (rab) millihenries! 
-	if Lcond == 1
-		l1 = 0.011653;              % Enter Klippel value as is
-		l2 = 0.0032495*1e3;         % Enter Klippel value * 1e3
-		l3 = -4.49E-05*1e6;         % Enter Klippel value * 1e6
-		l4 = -6.06E-06*1e9;         % etc...
-		l5 = 1.13E-07*1e12;
-		l6 = 9.90E-09*1e15;
-		l7 = -1.53E-10*1e18;
-		l8 = -1.01E-11*1e21;
+	if Lcond == 1		                     
+		l1 = -0.001954;          
+		l2 = -0.9398;          
+		l3 = 46.8;
+		l4 = 1390;
+        l5 = 0;
+		l6 = 0;
+		l7 = 0;
+        l8 = 0;
     else  
      	l1 = 0.0;
 		l2 = 0.0;
@@ -131,5 +131,5 @@ Kdxx = [k0 k1 k2 k3 k4];
 		l8 = 0.0;
     end
 %[Ldxx] = [0 0 0 0 l4 l3 l2 l1 l0]; 
-Ldxx = [l0 l1 l2 l3 l4];
+Ldxx = [l0 l1 l2 l3 l4 l5];
 
