@@ -4,7 +4,7 @@
 The Thiele-Small Calculator helps loudspeaker designers to select the component parameters to achieve their design goals. Users can put in the loudspeaker Thiele-Small parameters and the calculator will calculate the components and enclosure parameters.  If a user modify a component parameter the calculator will update the corresponding Thiele-Small parameters.  In addition, it supports importing the symmetric tests results from Dayton LA Loudspeaker Analyzer. The nonlinear polynomials needed for simulations would be generated based on the input sampled data. Note that simulations of loudspeakers can be done through the Simscape™ Acoustic Library available on MATLAB Central.
 
 Below is a screenshot of the calculator.
-![screenshot](images/thieleSmallCalc1.png)
+![screenshot](images/thieleSmallCalc2.png)
 
 ## How to get started
 Unzip the downloaded file, run the file thieleSmallCalc.mlapp in MATLAB. 
@@ -19,4 +19,4 @@ loudspeaker design, loudspeaker drivers, vibration sensor, hydrophones, acoustic
 ## Relevant Products
  *  MATLAB®
 
-Copyright 2025 The MathWorks, Inc.
+Copyright 2025-2026 The MathWorks, Inc.

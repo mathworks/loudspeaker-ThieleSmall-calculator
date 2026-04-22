@@ -1,27 +1,20 @@
 % Name: init_speaker_st
-% This script initializes the parameters for the electrical and the mechanical components. 
+% This script initializes the parameters for the electrical and the mechanical components.
 % Values specified in this script would contribute in the calculations of
 % Thiele-Small parameters.
 
-% Copyright © 2020-2025 The MathWorks, Inc.  
+% Copyright © 2020-2026 The MathWorks, Inc.
 
-Re = 5.85;             % ohms
-Le = 1.2e-4;        % henries 0.6e-3
-Bl   = 5.4;         % N/A  Newtons/Amp => 3.869
-mm = 0.013;          % kg => 0.013
-cm  = 0.001503;       % 0.56 mm/N, 0.394e-3? 0.56e-3; 1.5e-3
-rm  = 1.2;          % kg/s => 1.2
-
-
-%% Dayton Audio DA270 8 10 
-% Re = 6.3;             % ohms
-% Le = 1.197e-4;        % henries 0.6e-3
-% Bl   = 10.1;         % N/A  Newtons/Amp => 3.869
-% mm = 0.0513;          % kg => 0.013
-% cm  = 0.00064;       % 0.56 mm/N, 0.394e-3? 0.56e-3; 1.5e-3
-% rm  = 2.996;          % kg/s => 1.2
+Re = 5.85;           % ohms
+Le = 1.2e-4;         % henries  
+Bl   = 5.4;          % N/A  Newtons/Amp  
+mm = 0.013;          % kg  
+cm  = 0.001503;      % m/N 
+rm  = 0.66;          % kg/s  
 
 
+%%  
+ 
 state.elec.Re = Re;
 state.elec.Le = Le;
 state.elec.Bl = Bl;
@@ -39,8 +32,9 @@ state.mech.xmax = xmax;
 localScale = 1;        % scaling to match simulations
 
 Bcond = 1;                          % Flag of linear and nonlinear Bl-product
-Kcond = 1;                          % Flag of linear and nonlinear stiffness	
+Kcond = 1;                          % Flag of linear and nonlinear stiffness
 Lcond = 1;                          % Flag of linear and nonlinear inductance
+Rcond = 1;                          % Flag of linear and nonlinear mech damping
 
 
 %b0 = 20.148;                % BL enter as-is from Klippel
@@ -67,11 +61,11 @@ end
 %[Blxx] = [b8 b7 b6 b5 b4 b3 b2 b1 b0];
 Blxx = [b0 b1 b2 b3 b4 b5 b6 b7];
 
-% Stiffness (assumes Newtons / Meter) :	
+% Stiffness (assumes Newtons / Meter) :
 % Vb = 2.558;                             % 8 CF = 0.2265 m3 roof pit, set to 1e9 for free air
 % ro = 1.2;								% Air density kg/(m^3)
 % c = 343;								% Sound velocity	(m/sec)
-% Deff = .402;							% Loudspeaker efficient diameter (meters)  
+% Deff = .402;							% Loudspeaker efficient diameter (meters)
 % Seff = pi*(Deff/2.0)^2;				    % Loudspekaer efficient area (m^2)
 % Kmb = ((ro*c^2)*(Seff^2))/Vb;           % stiffness of test box
 
@@ -102,34 +96,81 @@ else
     k7 = 0.0;
     k8 = 0.0;
 end
-%[Kdxx] = [0 0 0 0 k4 k3 k2 k1 k0]; 
+%[Kdxx] = [0 0 0 0 k4 k3 k2 k1 k0];
 Kdxx = [k0 k1 k2 k3 k4 k5];
 
 
 %%
 
- % Voice coil inductance (Assumes Henries):						
-		% L0 = 1.6736*1e-3;           % Enter Klippel value mH * 1e-3
-        l0 = Le*1;                % (rab) millihenries! 
-	if Lcond == 1		                     
-		l1 = -0.001954;          
-		l2 = -0.9398;          
-		l3 = 46.8;
-		l4 = 1390;
-        l5 = 0;
-		l6 = 0;
-		l7 = 0;
-        l8 = 0;
-    else  
-     	l1 = 0.0;
-		l2 = 0.0;
-		l3 = 0.0;
-		l4 = 0.0;
-		l5 = 0.0;
-		l6 = 0.0;
-		l7 = 0.0;
-		l8 = 0.0;
-    end
-%[Ldxx] = [0 0 0 0 l4 l3 l2 l1 l0]; 
+% Voice coil inductance (Assumes Henries):
+% L0 = 1.6736*1e-3;           % Enter Klippel value mH * 1e-3
+l0 = Le*1;                % (rab) millihenries!
+if Lcond == 1
+    l1 = -0.001954;
+    l2 = -0.9398;
+    l3 = 46.8;
+    l4 = 1390;
+    l5 = 0;
+    l6 = 0;
+    l7 = 0;
+    l8 = 0;
+else
+    l1 = 0.0;
+    l2 = 0.0;
+    l3 = 0.0;
+    l4 = 0.0;
+    l5 = 0.0;
+    l6 = 0.0;
+    l7 = 0.0;
+    l8 = 0.0;
+end
+
+%[Ldxx] = [0 0 0 0 l4 l3 l2 l1 l0];
 Ldxx = [l0 l1 l2 l3 l4 l5];
 
+
+%%
+% Voice coil mechanical damping (kg/s):
+
+r0 = rm;
+if Rcond == 1
+    r1 = 4.408;
+    r2 = -9480;
+    r3 = -1.408e6;
+    r4 = -6.904e7;
+    r5 = 1.723e10;
+    r6 = 0;
+    r7 = 0;
+    r8 = 0;
+else
+    r1 = 0.0;
+    r2 = 0.0;
+    r3 = 0.0;
+    r4 = 0.0;
+    r5 = 0.0;
+    r6 = 0.0;
+    r7 = 0.0;
+    r8 = 0.0;
+end
+
+Rmxx = [r0 r1 r2 r3 r4 r5];
+
+%%
+% Voice coil mechanical damping (kg/s):
+
+r0 = rm;
+if Rcond == 1
+    r1 = 0.1766;
+    r2 = 1.4681;
+    r3 = 20.534;
+    r4 = 397.6;
+    r5 = 0;
+else
+    r1 = 0.0;
+    r2 = 0.0;
+    r3 = 0.0;
+    r4 = 0.0;
+    r5 = 0.0;
+end
+
+Rmvv = [r0 r1 r2 r3 r4 r5];
